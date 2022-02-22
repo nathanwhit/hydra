@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 5.0.0-alpha.29 (2022-02-22)
+
+
+### Features
+
+* index evm log contracts and topics in the separate table ([#177](https://github.com/subsquid/hydra/issues/177)) ([57aec95](https://github.com/subsquid/hydra/commit/57aec957b1114666f9bdc1a695472597f9800924))
+
+
+
 ## 5.0.0-alpha.28 (2022-02-19)
 
 
