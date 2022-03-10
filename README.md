@@ -1,3 +1,7 @@
+NB! This repository is deprecated in favour of [Squid](github.com/subsquid/squid) 
+------------------------------------------------------------------------------
+
+
 # Hydra
 
 ![A query node builder for Substrate chains](.gitbook/assets/hydra-logo-horizontallockup.svg)
