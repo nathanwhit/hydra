@@ -1,4 +1,4 @@
-NB! This repository is deprecated in favour of [Squid](github.com/subsquid/squid) 
+NB! This repository is deprecated in favour of [Squid](https://github.com/subsquid/squid) 
 ------------------------------------------------------------------------------
 
 
