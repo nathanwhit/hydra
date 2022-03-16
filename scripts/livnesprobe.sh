@@ -1,9 +1,9 @@
 #!/bin/bash
-if [[ ! -e old_head.txt  ]]; then 
-  curl localhost:9090/metrics | grep '^sqd_archive_chain_last_finalized_height' | awk '{print $2}' > old_head.txt
+if [[ ! -e old_head.txt  ]]; then
+  curl localhost:9090/metrics | grep '^sqd_archive_processed_events' | awk '{print $2}' > old_head.txt
   result=1
 else
-  current=$(curl localhost:9090/metrics | grep '^sqd_archive_chain_last_finalized_height' | awk '{print $2}')
+  current=$(curl localhost:9090/metrics | grep '^sqd_archive_processed_events' | awk '{print $2}')
   result=$current-$(cat old_head.txt)
   echo "$current" > old_head.txt
 fi
