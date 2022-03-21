@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 5.0.0-alpha.32 (2022-03-21)
+
+
+### Features
+
+* add substrate_extrinsic.signer index ([#183](https://github.com/subsquid/hydra/issues/183)) ([b1bc395](https://github.com/subsquid/hydra/commit/b1bc3954aec04081a7ff34a489b0691a6b1152e0))
+
+
+
 ## 5.0.0-alpha.31 (2022-03-16)
 
 **Note:** Version bump only for package @subsquid/hydra-processor
