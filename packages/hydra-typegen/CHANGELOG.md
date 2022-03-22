@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 5.0.0-alpha.33 (2022-03-22)
+
+
+### Features
+
+* **hydra-indexer:** enable ssl for archives ([#184](https://github.com/Joystream/hydra/issues/184)) ([ded420f](https://github.com/Joystream/hydra/commit/ded420f4cc47ab927bd56d85c423456210188084))
+
+
+
 ## 5.0.0-alpha.32 (2022-03-21)
 
 
