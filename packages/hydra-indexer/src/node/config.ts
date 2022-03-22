@@ -4,6 +4,8 @@ import path from 'path'
 import fs from 'fs'
 import Debug from 'debug'
 
+const debug = Debug('hydra-indexer:config')
+
 let conf: {
   BLOCK_HEIGHT: number
   FORCE_HEIGHT: boolean
@@ -23,6 +25,9 @@ let conf: {
   DB_USER: string
   DB_PASS: string
   DB_LOGGING: string
+  DB_SSL_ENABLED: boolean
+  DB_SSL_CERT: string
+  DB_SSL_CA: string
   // advanced consts
   BLOCK_CACHE_TTL_SEC: number
   INDEXER_HEAD_TTL_SEC: number
@@ -45,6 +50,9 @@ let dbConf: {
   DB_USER: string
   DB_PASS: string
   DB_LOGGING: string
+  DB_SSL_ENABLED: boolean
+  DB_SSL_CERT: string
+  DB_SSL_CA: string
 }
 
 const jsonPath = makeValidator<Record<string, unknown>>(
@@ -71,6 +79,28 @@ const jsonPath = makeValidator<Record<string, unknown>>(
   }
 )
 
+const certPath = makeValidator<string>(
+  (p: string | undefined | unknown): string => {
+    if (p === undefined || p === '' || p === 'undefined') {
+      return ''
+    }
+
+    if (typeof p === 'object') {
+      return JSON.stringify(p)
+    }
+
+    let certFile: string
+    try {
+      const certFilePath = path.resolve(<string>p)
+      debug(`Loading SSL certificate from ${certFilePath}`)
+      certFile = fs.readFileSync(certFilePath, 'utf-8')
+    } catch {
+      throw new Error(`Can't open cert file ${p}`)
+    }
+    return certFile
+  }
+)
+
 function removeUndefinedEnvs(): void {
   Object.keys(process.env).map((key) => {
     if (process.env[key] === 'undefined' || process.env[key] === '') {
@@ -86,6 +116,10 @@ export function dbConfigure(): void {
   process.env.DB_PASS = process.env.TYPEORM_PASSWORD || process.env.DB_PASS
   process.env.DB_NAME = process.env.TYPEORM_DATABASE || process.env.DB_NAME
   process.env.DB_LOGGING = process.env.TYPEORM_LOGGING || process.env.DB_LOGGING
+  process.env.DB_SSL_ENABLED =
+    process.env.TYPEORM_SSL || process.env.DB_SSL_ENABLED
+  process.env.DB_SSL_CERT =
+    process.env.TYPEORM_SSL_CERT || process.env.DB_SSL_CERT
 
   removeUndefinedEnvs()
 
@@ -108,6 +142,15 @@ export function dbConfigure(): void {
       ],
       default: 'error',
       desc: 'Typeorm logging level',
+    }),
+    DB_SSL_ENABLED: bool({ default: false, desc: 'Enable SSL connection' }),
+    DB_SSL_CERT: certPath({
+      default: '',
+      desc: 'path to database SSL cert',
+    }),
+    DB_SSL_CA: certPath({
+      default: '',
+      desc: 'path to database SSL cert',
     }),
   })
 }
