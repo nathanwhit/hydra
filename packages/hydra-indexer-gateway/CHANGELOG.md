@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 5.0.0-alpha.35 (2022-05-09)
+
+
+### Features
+
+* add timestamp indices ([#189](https://github.com/subsquid/hydra/issues/189)) ([2de54d8](https://github.com/subsquid/hydra/commit/2de54d828458485a1b48c79ada525f81c000a748))
+
+
+
 ## 5.0.0-alpha.34 (2022-04-28)
 
 **Note:** Version bump only for package @subsquid/hydra-indexer-gateway
