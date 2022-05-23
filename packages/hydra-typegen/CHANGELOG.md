@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 5.0.0-alpha.36 (2022-05-23)
+
+
+### Features
+
+* **hydra-indexer:** add db logging options ([#190](https://github.com/Joystream/hydra/issues/190)) ([cdea425](https://github.com/Joystream/hydra/commit/cdea425220f351a1545c3f5d40a5edb84e6e3a01))
+
+
+
 ## 5.0.0-alpha.35 (2022-05-09)
 
 
