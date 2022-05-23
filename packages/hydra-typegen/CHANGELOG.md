@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 5.0.0-alpha.37 (2022-05-23)
+
+
+### Bug Fixes
+
+* archive typeorm logging ([#191](https://github.com/Joystream/hydra/issues/191)) ([d3df007](https://github.com/Joystream/hydra/commit/d3df0079547047fb5b4f1971d21aa17a5dd1ec1e))
+
+
+
 ## 5.0.0-alpha.36 (2022-05-23)
 
 
