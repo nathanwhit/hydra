@@ -4,6 +4,11 @@ import path from 'path'
 import fs from 'fs'
 import Debug from 'debug'
 
+export declare type LoggerOptions =
+  | boolean
+  | 'all'
+  | ('query' | 'schema' | 'error' | 'warn' | 'info' | 'log' | 'migration')[]
+
 const debug = Debug('hydra-indexer:config')
 
 let conf: {
@@ -24,7 +29,7 @@ let conf: {
   DB_NAME: string
   DB_USER: string
   DB_PASS: string
-  DB_LOGGING: string
+  DB_LOGGING: LoggerOptions
   DB_SSL_ENABLED: boolean
   DB_SSL_CERT: string
   DB_SSL_CA: string
@@ -49,7 +54,7 @@ let dbConf: {
   DB_NAME: string
   DB_USER: string
   DB_PASS: string
-  DB_LOGGING: string
+  DB_LOGGING: LoggerOptions
   DB_SSL_ENABLED: boolean
   DB_SSL_CERT: string
   DB_SSL_CA: string
@@ -76,6 +81,39 @@ const jsonPath = makeValidator<Record<string, unknown>>(
     } catch {
       throw new Error(`Invalid JSON: ${p}`)
     }
+  }
+)
+
+const dbLogOptions = makeValidator<LoggerOptions>(
+  (p: string | undefined): LoggerOptions => {
+    // error by default
+    if (p === undefined || p === '' || p === 'undefined') {
+      return []
+    }
+
+    if (p === 'true') {
+      return true
+    }
+    if (p === 'all') {
+      return 'all'
+    }
+
+    const opts = p
+      .split(',')
+      .map((s) => s.trim())
+      .filter((s) =>
+        [
+          'query',
+          'schema',
+          'error',
+          'warn',
+          'info',
+          'log',
+          'migration',
+        ].includes(s)
+      )
+
+    return opts as LoggerOptions
   }
 )
 
@@ -129,18 +167,8 @@ export function dbConfigure(): void {
     DB_PORT: port({ devDefault: 5432, desc: `Database port` }),
     DB_USER: str({ devDefault: 'postgres', desc: `Database user` }),
     DB_PASS: str({ devDefault: 'postgres', desc: `Database user passowrd` }),
-    DB_LOGGING: str({
-      choices: [
-        'error',
-        'query',
-        'schema',
-        'warn',
-        'info',
-        'log',
-        'true',
-        'all',
-      ],
-      default: 'error',
+    DB_LOGGING: dbLogOptions({
+      default: ['error'],
       desc: 'Typeorm logging level',
     }),
     DB_SSL_ENABLED: bool({ default: false, desc: 'Enable SSL connection' }),
