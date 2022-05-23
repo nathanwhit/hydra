@@ -17,6 +17,7 @@ export default function config(name?: string): ConnectionOptions {
     username: conf.DB_USER,
     password: conf.DB_PASS,
     database: conf.DB_NAME,
+    logging: conf.DB_LOGGING,
     ssl: conf.DB_SSL_ENABLED
       ? {
           rejectUnauthorized: false,
