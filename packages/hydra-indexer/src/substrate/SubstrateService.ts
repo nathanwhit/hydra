@@ -65,22 +65,14 @@ export class SubstrateService implements ISubstrateService {
 
   getFinalizedHead(): Promise<Hash> {
     return this.apiCall(
-      (api) => api.rpc.chain.getFinalizedHead(),
-      `get_finalized_head`
+      (api) => api.rpc.chain.getBlockHash(),
+      `get_block_hash`
     )
   }
 
   async subscribeToHeads(): Promise<void> {
     debug(`Subscribing to new heads`)
     const api = await getApiPromise()
-    api.rx.rpc.chain.subscribeFinalizedHeads().subscribe({
-      next: (header: Header) =>
-        eventEmitter.emit(IndexerEvents.NEW_FINALIZED_HEAD, {
-          header,
-          height: header.number.toNumber(),
-        }),
-    })
-
     api.rx.rpc.chain.subscribeNewHeads().subscribe({
       next: (header: Header) =>
         eventEmitter.emit(IndexerEvents.NEW_BEST_HEAD, {

@@ -49,7 +49,7 @@ export class BlockProducer implements IBlockProducer<BlockData> {
     this._chainHeight = header.number.toNumber()
 
     // We cache block headers to save on API calls
-    eventEmitter.on(IndexerEvents.NEW_FINALIZED_HEAD, ({ header, height }) => {
+    eventEmitter.on(IndexerEvents.NEW_BEST_HEAD, ({ header, height }) => {
       debug(`New finalized head: ${JSON.stringify(header)}, height: ${height}`)
       this._headerCache.put(height, header)
       this._chainHeight = header.number.toNumber()
@@ -147,15 +147,15 @@ export class BlockProducer implements IBlockProducer<BlockData> {
       return cachedHeader.hash
     }
     // wait for finality threshold to be on the safe side
-    const isFinal = () => this._chainHeight - h > conf().FINALITY_THRESHOLD
-    if (!isFinal()) {
-      debug(
-        `Block number: ${h}, current chain height: ${
-          this._chainHeight
-        }. Waiting for the finality threshold: ${conf().FINALITY_THRESHOLD}.`
-      )
-      await pWaitFor(isFinal)
-    }
+    // const isFinal = () => this._chainHeight - h > conf().FINALITY_THRESHOLD
+    // if (!isFinal()) {
+    //   debug(
+    //     `Block number: ${h}, current chain height: ${
+    //       this._chainHeight
+    //     }. Waiting for the finality threshold: ${conf().FINALITY_THRESHOLD}.`
+    //   )
+    //   await pWaitFor(isFinal)
+    // }
 
     return await this.substrateService.getBlockHash(h.toString())
   }
