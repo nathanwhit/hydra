@@ -146,16 +146,6 @@ export class BlockProducer implements IBlockProducer<BlockData> {
       debug(`Cached header ${cachedHeader.toString()} at height ${h} `)
       return cachedHeader.hash
     }
-    // wait for finality threshold to be on the safe side
-    // const isFinal = () => this._chainHeight - h > conf().FINALITY_THRESHOLD
-    // if (!isFinal()) {
-    //   debug(
-    //     `Block number: ${h}, current chain height: ${
-    //       this._chainHeight
-    //     }. Waiting for the finality threshold: ${conf().FINALITY_THRESHOLD}.`
-    //   )
-    //   await pWaitFor(isFinal)
-    // }
 
     return await this.substrateService.getBlockHash(h.toString())
   }
