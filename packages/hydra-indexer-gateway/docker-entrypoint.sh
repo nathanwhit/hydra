@@ -31,12 +31,12 @@ wait-until 'psql --set=sslmode=require --dbname="$DB_NAME" -c "select id from su
 
 
 create-database() {
-    if [ "$( psql -tAc "SELECT 1 FROM pg_database WHERE datname='"$MDB"'" )" = '1' ]
+    if [ "$( psql --set=sslmode=require --dbname="$DB_NAME" -tAc "SELECT 1 FROM pg_database WHERE datname='"$MDB"'" )" = '1' ]
     then
         echo "found metadata database"
     else
          export PGDATABASE=$DB_NAME
-         psql --set=sslmode=require -c "CREATE DATABASE $MDB" && echo "created metadata database"
+         psql --set=sslmode=require --dbname="$DB_NAME" -c "CREATE DATABASE $MDB" && echo "created metadata database"
     fi
 }
 wait-until 'create-database' 5
