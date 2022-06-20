@@ -23,7 +23,10 @@ export class ArchiveStarter {
     debug(`Hydra Indexer version: ${getHydraVersion()}`)
 
     configure()
-    await createDBConnection()
+    const connection = await createDBConnection()
+    if (connection) {
+      await connection.runMigrations({ transaction: 'all' })
+    }
     debug(`Database connection OK`)
 
     initPubSub()

@@ -3,11 +3,29 @@ import assert from 'assert'
 import Debug from 'debug'
 import config from './dbconfig'
 import { getConfig as conf } from '../node'
+const pgtools = require('pgtools')
 
 const debug = Debug('index-builder:helper')
 
+let dbInitialized = false
 export async function createDBConnection(): Promise<Connection> {
   const _config = config()
+  if (!dbInitialized) {
+    const cfg = _config as any
+    pgtools
+      .createdb(
+        `postgres://${cfg.username}:${cfg.password}@${cfg.host}:${cfg.port}?ssl=true`,
+        cfg.database
+      )
+      .catch((e: any) => {
+        if (e && e.name && e.name === 'duplicate_database') {
+          console.log(`Database '${cfg.database}' already exists`)
+        } else {
+          console.error(e)
+        }
+      })
+    dbInitialized = true
+  }
   debug(`DB config: ${JSON.stringify(_config, null, 2)}`)
   return createConnection(_config)
 }
